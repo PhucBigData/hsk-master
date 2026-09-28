@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
+.font-hanzi {
+  font-family: 'Noto Serif SC', 'KaiTi', 'STKaiti', serif;
+}
+
+/* Hiệu ứng lật thẻ 3D */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Lưới ô chữ Mễ (米字格) nền cho Hanzi Writer */
+.mizige-bg {
+  background-color: #fffdf9;
+  background-image: 
+    linear-gradient(to right, rgba(220, 38, 38, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(220, 38, 38, 0.15) 1px, transparent 1px),
+    linear-gradient(45deg, transparent 49.5%, rgba(220, 38, 38, 0.1) 49.5%, rgba(220, 38, 38, 0.1) 50.5%, transparent 50.5%),
+    linear-gradient(-45deg, transparent 49.5%, rgba(220, 38, 38, 0.1) 49.5%, rgba(220, 38, 38, 0.1) 50.5%, transparent 50.5%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: center;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1c7bd;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b3a598;
+}
