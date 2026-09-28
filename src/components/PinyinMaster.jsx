@@ -16,7 +16,7 @@ export default function PinyinMaster() {
   const currentDrill = PINYIN_DRILLS[currentDrillIndex];
 
   const handlePlayDrillAudio = () => {
-    speakChinese(currentDrill.audioWord, { rate: 0.8 });
+    speakChinese(currentDrill.audioWord, { rate: 0.85 });
   };
 
   const handleSelectDrill = (opt) => {
@@ -59,10 +59,10 @@ export default function PinyinMaster() {
           Pinyin & Thanh Điệu Tiếng Trung
         </h1>
         <p className="text-sm text-red-100/90 mt-1 max-w-2xl">
-          Lâu ngày quên cách đọc? Hãy ôn lại ngay quy tắc 4 thanh điệu cốt lõi, bí quyết phân biệt âm bật hơi và thử thách nhận diện thanh điệu qua thính giác.
+          Lâu ngày quên cách đọc? Hãy ôn lại ngay quy tắc 4 thanh điệu cốt lõi, bí quyết phân biệt âm bật hơi và thử thách nhận diện thanh điệu qua thính giác với giọng đọc chuẩn bản xứ.
         </p>
 
-        {/* Tab chuyển đổi nhỏ */}
+        {/* Tab chuyển đổi */}
         <div className="flex space-x-2 mt-6">
           <button
             onClick={() => setActiveTab('tones')}
@@ -116,11 +116,12 @@ export default function PinyinMaster() {
                       {item.symbol}
                     </span>
                     <button
-                      onClick={() => speakChinese(item.sample, { rate: 0.75 })}
-                      className="p-2 rounded-xl bg-white shadow-sm border border-gray-100 hover:scale-105 active:scale-95 transition text-gray-700"
-                      title="Bấm để nghe âm thanh mẫu"
+                      onClick={() => speakChinese(item.sampleZh, { rate: 0.85 })}
+                      className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white shadow-sm border border-gray-100 hover:scale-105 active:scale-95 transition text-gray-700 text-xs font-semibold"
+                      title="Bấm để nghe âm thanh người bản xứ phát âm"
                     >
                       <Volume2 className="w-4 h-4 text-red-700" />
+                      <span>Nghe mẫu</span>
                     </button>
                   </div>
                   <h3 className="font-bold text-gray-900 text-sm mb-1">
@@ -132,10 +133,18 @@ export default function PinyinMaster() {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Từ mẫu thử:</span>
-                  <span className="font-bold font-hanzi text-base text-gray-800">
-                    {item.sample}
-                  </span>
+                  <span className="text-gray-400">Từ mẫu:</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="font-bold font-hanzi text-lg text-red-700">
+                      {item.sampleZh}
+                    </span>
+                    <span className="font-mono font-bold text-gray-700">
+                      [{item.samplePy}]
+                    </span>
+                    <span className="text-gray-500">
+                      ({item.meaning})
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -151,24 +160,51 @@ export default function PinyinMaster() {
               <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
                 <span className="font-bold text-amber-900 block mb-1">1. Hai Thanh 3 Đi Liền Nhau</span>
                 <p>Thanh 3 thứ nhất biến thành <strong>Thanh 2</strong>:</p>
-                <div className="mt-2 font-mono text-red-700 font-bold">
-                  nǐ + hǎo ➔ <span className="underline">ní</span> hǎo (你好)
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="font-mono text-red-700 font-bold">
+                    nǐ + hǎo ➔ <span className="underline">ní</span> hǎo (你好)
+                  </span>
+                  <button
+                    onClick={() => speakChinese('你好')}
+                    className="p-1.5 rounded-lg bg-white shadow-sm text-red-700"
+                    title="Nghe phát âm"
+                  >
+                    <Volume2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
 
               <div className="p-4 rounded-2xl bg-red-50/70 border border-red-200">
                 <span className="font-bold text-red-900 block mb-1">2. Biến Điệu Của Chữ 不 (bù)</span>
                 <p>Trước một chữ mang Thanh 4, '不' biến thành <strong>bú</strong> (Thanh 2):</p>
-                <div className="mt-2 font-mono text-red-700 font-bold">
-                  bù + shì ➔ <span className="underline">bú</span> shì (不是)
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="font-mono text-red-700 font-bold">
+                    bù + shì ➔ <span className="underline">bú</span> shì (不是)
+                  </span>
+                  <button
+                    onClick={() => speakChinese('不是')}
+                    className="p-1.5 rounded-lg bg-white shadow-sm text-red-700"
+                    title="Nghe phát âm"
+                  >
+                    <Volume2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
 
               <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200">
                 <span className="font-bold text-emerald-900 block mb-1">3. Biến Điệu Của Chữ 一 (yī)</span>
                 <p>Đứng trước thanh 4 đọc là <strong>yí</strong>, trước thanh 1, 2, 3 đọc là <strong>yì</strong>:</p>
-                <div className="mt-2 font-mono text-emerald-800 font-bold">
-                  yī + yàng ➔ <span className="underline">yí</span> yàng (一样)
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="font-mono text-emerald-800 font-bold">
+                    yī + yàng ➔ <span className="underline">yí</span> yàng (一样)
+                  </span>
+                  <button
+                    onClick={() => speakChinese('一样')}
+                    className="p-1.5 rounded-lg bg-white shadow-sm text-emerald-700"
+                    title="Nghe phát âm"
+                  >
+                    <Volume2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -204,17 +240,20 @@ export default function PinyinMaster() {
                         <p className="text-xs text-gray-600 mt-1 line-clamp-2">
                           {item.tip}
                         </p>
-                        <div className="text-[11px] font-bold text-amber-800 mt-2">
-                          Ví dụ: {item.sample}
+                        <div className="text-xs font-semibold text-gray-800 mt-2 flex items-center space-x-1">
+                          <span>Ví dụ:</span>
+                          <span className="font-hanzi font-bold text-red-800 text-sm">{item.hanzi}</span>
+                          <span className="text-gray-500 font-mono">[{item.samplePy}]</span>
+                          <span className="text-gray-400">({item.meaning})</span>
                         </div>
                       </div>
 
                       <button
-                        onClick={() => speakChinese(item.sample, { rate: 0.8 })}
-                        className="p-1.5 rounded-xl bg-white shadow-sm border border-gray-200 text-gray-600 hover:text-red-700"
-                        title="Nghe phát âm"
+                        onClick={() => speakChinese(item.hanzi, { rate: 0.85 })}
+                        className="p-2 rounded-xl bg-white shadow-sm border border-gray-200 text-gray-600 hover:text-red-700 hover:scale-105 active:scale-95 transition"
+                        title={`Nghe phát âm từ mẫu ${item.hanzi}`}
                       >
-                        <Volume2 className="w-3.5 h-3.5" />
+                        <Volume2 className="w-4 h-4 text-red-700" />
                       </button>
                     </div>
                   ))}

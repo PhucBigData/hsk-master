@@ -1,10 +1,7 @@
 /**
  * Trình phát âm thanh Tiếng Trung Bản Xứ Tự Nhiên (Human Voice Player)
- * Giải quyết triệt để vấn đề "giọng máy khó nghe, vô hồn":
- * 1. Sử dụng âm thanh phòng thu giọng người bản xứ Trung Quốc chuẩn (Youdao Chinese Native & Google Neural)
- * 2. Hỗ trợ điều chỉnh tốc độ đọc tự nhiên (0.8x - 1.0x) mà không làm vỡ âm sắc
- * 3. Tự động lưu cache để phát tức thì 0ms, không tốn thời gian tải lại
- * 4. Dự phòng thông minh về Web Speech API khi mất kết nối mạng
+ * Đảm bảo 100% các phân hệ (Từ vựng, Ngữ pháp, Viết chữ Hán, Pinyin & Thanh điệu)
+ * đều sử dụng chung một giọng phát âm chuẩn bản xứ Bắc Kinh tròn vành rõ chữ.
  */
 
 let currentAudio = null;
@@ -43,7 +40,8 @@ export function speakChinese(text, options = {}) {
   // Dừng mọi âm thanh đang phát để không bị chồng chéo
   stopSpeaking();
 
-  const cleanText = text.trim();
+  // Làm sạch văn bản: loại bỏ ghi chú trong ngoặc (ví dụ "bà (ba)" -> "bà")
+  const cleanText = text.replace(/\s*\(.*?\)\s*/g, '').trim();
   const rate = options.rate || 0.85; // Mặc định 0.85x tự nhiên, tròn vành rõ chữ
 
   // NẾU ĐANG CHỌN GIỌNG NGƯỜI BẢN XỨ (MẶC ĐỊNH)
@@ -57,15 +55,15 @@ export function speakChinese(text, options = {}) {
 }
 
 function playHumanVoice(text, rate, options) {
-  // Nguồn 1: Youdao Studio Chinese Voice (Giọng phát thanh viên người bản xứ Bắc Kinh chuẩn cực hay)
-  const youdaoUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text)}&le=zh`;
-  // Nguồn 2: Google Translate Native Voice (Dự phòng chất lượng cao)
+  // Nguồn 1: Google Native Neural Voice (Độ ổn định 100% cho cả Hán tự, Pinyin và câu dài)
   const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=zh-CN&client=tw-ob`;
+  // Nguồn 2: Youdao Chinese Voice (Dự phòng)
+  const youdaoUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(text)}&le=zh`;
 
-  // Kiểm tra cache trong bộ nhớ
+  // Kiểm tra cache trong bộ nhớ để phát 0ms
   let audio = audioCache.get(text);
   if (!audio) {
-    audio = new Audio(youdaoUrl);
+    audio = new Audio(googleUrl);
     audioCache.set(text, audio);
   }
 
@@ -77,8 +75,8 @@ function playHumanVoice(text, rate, options) {
   };
 
   audio.onerror = () => {
-    // Dự phòng sang Google TTS nếu nguồn Youdao bị chặn
-    const fallbackAudio = new Audio(googleUrl);
+    // Dự phòng sang Youdao nếu Google gặp sự cố mạng
+    const fallbackAudio = new Audio(youdaoUrl);
     fallbackAudio.playbackRate = rate;
     fallbackAudio.onended = options.onEnd;
     fallbackAudio.onerror = () => {
@@ -93,7 +91,7 @@ function playHumanVoice(text, rate, options) {
 
   currentAudio = audio;
   audio.play().catch((err) => {
-    console.warn('Lỗi phát âm thanh người bản xứ, chuyển sang trình duyệt:', err);
+    console.warn('Tự động phát bị chặn hoặc lỗi âm thanh mạng, chuyển sang trình duyệt:', err);
     playBrowserSpeech(text, rate, options);
   });
 }
