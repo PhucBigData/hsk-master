@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { PenTool, Zap, BookOpen, Volume2, Layers, Award, Mic, Settings2, FileText } from 'lucide-react';
-import { getVoiceSource, setVoiceSource, speakChinese } from '../utils/speech';
+import { PenTool, Zap, BookOpen, Volume2, Layers, Award, User, VolumeX, FileText, Gauge } from 'lucide-react';
+import { getVoiceType, setVoiceType, getSpeechRate, setSpeechRate, speakChinese } from '../utils/speech';
 
 export default function Navbar({ activeTab, setActiveTab, stats }) {
-  const [voiceSource, setLocalVoiceSource] = useState(getVoiceSource());
+  const [voiceType, setLocalVoiceType] = useState(getVoiceType());
+  const [speechRate, setLocalSpeechRate] = useState(getSpeechRate());
 
   const navItems = [
     { id: 'writer', label: 'Luyện Viết Hán Tự', icon: PenTool, badge: 'Bút thuận' },
@@ -15,14 +16,21 @@ export default function Navbar({ activeTab, setActiveTab, stats }) {
   ];
 
   const handleToggleVoice = () => {
-    const next = voiceSource === 'human' ? 'browser' : 'human';
-    setLocalVoiceSource(next);
-    setVoiceSource(next);
-    speakChinese(next === 'human' ? '你好！这是真人发音。' : '你好！这是系统合成音。');
+    const next = voiceType === 'female' ? 'male' : 'female';
+    setLocalVoiceType(next);
+    setVoiceType(next);
+    speakChinese(next === 'female' ? '你好！我是中文女声老师。' : '你好！这是男声发音。', { rate: speechRate });
+  };
+
+  const handleToggleRate = () => {
+    const nextRate = speechRate === 0.85 ? 1.0 : 0.85;
+    setLocalSpeechRate(nextRate);
+    setSpeechRate(nextRate);
+    speakChinese(nextRate === 0.85 ? '慢速发音，听得更清楚。' : '正常语速。', { rate: nextRate });
   };
 
   const handleTestAudio = () => {
-    speakChinese('你好，欢迎学习汉语！');
+    speakChinese(voiceType === 'female' ? '你好！我是中文老师，祝你学习进步！' : '你好！祝你学习进步！', { rate: speechRate });
   };
 
   return (
@@ -31,7 +39,7 @@ export default function Navbar({ activeTab, setActiveTab, stats }) {
         <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* Logo & Brand */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('writer')}>
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('exercises')}>
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-red-600 to-red-800 text-amber-200 flex items-center justify-center font-hanzi text-2xl font-bold shadow-md shadow-red-200">
               汉
             </div>
@@ -50,34 +58,42 @@ export default function Navbar({ activeTab, setActiveTab, stats }) {
             </div>
           </div>
 
-          {/* Right Controls: Voice Toggle + Stats */}
-          <div className="flex items-center space-x-3">
+          {/* Right Controls: Voice Gender + Speed + Stats */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
             
-            {/* Bộ chuyển đổi giọng đọc Người thật vs Giọng máy */}
-            <div className="flex items-center bg-emerald-50 border border-emerald-200/80 rounded-2xl p-1 text-xs">
+            {/* Bộ chuyển đổi Giọng Nữ / Giọng Nam */}
+            <div className="flex items-center bg-rose-50/80 border border-rose-200/80 rounded-2xl p-1 text-xs">
               <button
                 onClick={handleToggleVoice}
                 className={`flex items-center space-x-1.5 px-3 py-1 rounded-xl font-bold transition ${
-                  voiceSource === 'human'
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'text-gray-500 hover:text-emerald-700'
+                  voiceType === 'female'
+                    ? 'bg-rose-600 text-white shadow-sm'
+                    : 'bg-blue-600 text-white shadow-sm'
                 }`}
-                title="Bấm để chuyển đổi giữa Giọng người bản xứ và Giọng máy"
+                title="Bấm để chuyển đổi giữa Giọng Nữ và Giọng Nam"
               >
-                <Mic className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Giọng Người Bản Xứ (HD)</span>
-                <span className="sm:hidden">Người thật</span>
+                <span>{voiceType === 'female' ? '👩 Giọng Nữ (Dễ nghe)' : '👨 Giọng Nam'}</span>
               </button>
 
               <button
                 onClick={handleTestAudio}
-                className="px-2 py-1 text-[11px] font-semibold text-emerald-800 hover:text-red-700 flex items-center space-x-1"
-                title="Nghe thử âm thanh giọng đọc"
+                className="px-2 py-1 text-[11px] font-semibold text-rose-800 hover:text-red-700 flex items-center space-x-1"
+                title="Nghe thử giọng phát âm"
               >
-                <Volume2 className="w-3 h-3" />
+                <Volume2 className="w-3.5 h-3.5" />
                 <span className="hidden md:inline">Thử giọng</span>
               </button>
             </div>
+
+            {/* Nút chỉnh tốc độ đọc */}
+            <button
+              onClick={handleToggleRate}
+              className="flex items-center space-x-1 px-2.5 py-1.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold hover:bg-amber-100 transition"
+              title="Đổi tốc độ đọc (0.85x chậm rãi hoặc 1.0x chuẩn)"
+            >
+              <Gauge className="w-3.5 h-3.5 text-amber-600" />
+              <span>{speechRate}x</span>
+            </button>
 
             {/* Quick Stats Pill */}
             <div className="hidden lg:flex items-center space-x-3 bg-amber-50/70 border border-amber-200/80 rounded-2xl px-3.5 py-1.5 text-xs text-amber-900">
