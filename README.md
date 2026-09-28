@@ -19,7 +19,12 @@
    - 3 chế độ: Chớp mắt đoán nghĩa, Bắt âm thanh (nghe chọn chữ), Bắn tỉa ngữ pháp.
    - Hệ thống đếm giờ, streak combo, âm thanh Web Audio và tổng kết câu sai.
 
-3. **17 Chủ Điểm Ngữ Pháp HSK 2 Toàn Diện**
+3. **Bộ Bài Tập & Đề Thi HSK 2 (Exercise Center - Mới)**
+   - Toàn bộ **44 câu trắc nghiệm ngữ pháp** kinh điển: Điền từ vào vị trí (①, ②, ③, ④), sắp xếp trật tự câu, câu chữ 让/比, bổ ngữ kết quả (`吃完`, `洗干净`, `看得见`).
+   - 2 chế độ: *Luyện từng câu* (lời giải và phát âm ngay lập tức) hoặc *Thi thử 25 phút* (chấm điểm HSK).
+   - **Bài Tập Luyện Dịch Thực Chiến**: 5 câu Dịch xuôi (Trung ➔ Việt) + 5 câu Dịch ngược (Việt ➔ Trung) kèm gợi ý từ khóa và câu mẫu chuẩn.
+
+4. **17 Chủ Điểm Ngữ Pháp HSK 2 Toàn Diện**
    - Đầy đủ 17 chủ điểm ngữ pháp trọng yếu: Đại từ, Phó từ, Giới từ, Liên từ, Trợ từ kết cấu `得`, Trợ từ động thái `着`/`过`, Câu so sánh `比`, Động từ trùng điệp...
    - Tích hợp giọng đọc bản xứ cho từng câu ví dụ.
    - Mini-quiz kiểm tra tức thì sau mỗi bài học.

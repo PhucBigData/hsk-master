@@ -5,9 +5,10 @@ import ReflexArena from './components/ReflexArena';
 import GrammarExplorer from './components/GrammarExplorer';
 import PinyinMaster from './components/PinyinMaster';
 import FlashcardDeck from './components/FlashcardDeck';
+import ExerciseCenter from './components/ExerciseCenter';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('writer');
+  const [activeTab, setActiveTab] = useState('exercises'); // Mặc định mở tab Bài tập mới cho học viên trải nghiệm ngay!
   
   const [stats, setStats] = useState(() => {
     try {
@@ -40,6 +41,7 @@ export default function App() {
         {activeTab === 'writer' && <HanziWriterView />}
         {activeTab === 'reflex' && <ReflexArena onScoreUpdate={handleScoreUpdate} />}
         {activeTab === 'grammar' && <GrammarExplorer />}
+        {activeTab === 'exercises' && <ExerciseCenter />}
         {activeTab === 'pinyin' && <PinyinMaster />}
         {activeTab === 'flashcard' && <FlashcardDeck />}
       </main>

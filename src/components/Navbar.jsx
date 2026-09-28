@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PenTool, Zap, BookOpen, Volume2, Layers, Award, Mic, Settings2 } from 'lucide-react';
+import { PenTool, Zap, BookOpen, Volume2, Layers, Award, Mic, Settings2, FileText } from 'lucide-react';
 import { getVoiceSource, setVoiceSource, speakChinese } from '../utils/speech';
 
 export default function Navbar({ activeTab, setActiveTab, stats }) {
@@ -9,6 +9,7 @@ export default function Navbar({ activeTab, setActiveTab, stats }) {
     { id: 'writer', label: 'Luyện Viết Hán Tự', icon: PenTool, badge: 'Bút thuận' },
     { id: 'reflex', label: 'Đấu Trường Phản Xạ', icon: Zap, badge: 'Speed Quiz' },
     { id: 'grammar', label: 'Ngữ Pháp HSK 2', icon: BookOpen, badge: '17 Chủ điểm' },
+    { id: 'exercises', label: 'Bộ Bài Tập & Đề Thi', icon: FileText, badge: '44 Câu + Dịch' },
     { id: 'pinyin', label: 'Pinyin & Phát Âm', icon: Volume2, badge: '4 Thanh điệu' },
     { id: 'flashcard', label: 'Từ Vựng & Thẻ Nhớ', icon: Layers, badge: 'HSK 1-2-3' },
   ];
